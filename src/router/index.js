@@ -4,7 +4,8 @@ import FavoritesView from '../views/FavoritesView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
-  { path: '/favorites', name: 'favorites', component: FavoritesView }
+  { path: '/favorites', name: 'favorites', component: FavoritesView },
+  { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') }
 ]
 
 const router = createRouter({
