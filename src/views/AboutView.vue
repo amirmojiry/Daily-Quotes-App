@@ -30,7 +30,7 @@
       </div>
       
       <div class="version-info">
-        <p>Version 1.0.0</p>
+        <p>Version 1.0.1</p>
         <p>Built with ❤️ by Amir Mojiri</p>
       </div>
     </div>
