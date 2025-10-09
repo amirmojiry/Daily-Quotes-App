@@ -5,17 +5,69 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Capacitor specific rules
+-keep class com.capacitorjs.** { *; }
+-keep class com.getcapacitor.** { *; }
+-keep class com.getcapacitor.plugin.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Keep JavaScript interfaces
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Keep WebView JavaScript interfaces
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+    public *;
+}
+
+# Preserve line number information for debugging stack traces
+-keepattributes SourceFile,LineNumberTable
+
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep Capacitor plugins
+-keep class com.getcapacitor.plugin.** { *; }
+-keep class com.capacitorjs.plugins.** { *; }
+
+# Keep Android WebView
+-keep class android.webkit.** { *; }
+
+# Keep JSON classes (if used)
+-keep class org.json.** { *; }
+
+# Keep reflection-based classes
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# Keep classes that might be accessed via reflection
+-keep class * extends java.lang.Exception
+
+# Keep all public classes and methods in the main package
+-keep public class com.amirmojiry.daily_quotes.** { public *; }
+
+# Keep all classes that might be instantiated via reflection
+-keep class * implements java.io.Serializable { *; }
+
+# Keep all enum classes
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep Parcelable classes
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+# Keep all native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep JavaScript bridge methods
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
