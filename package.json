@@ -1,12 +1,16 @@
 {
   "name": "daily-quotes",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "version:patch": "./scripts/version.sh patch",
+    "version:minor": "./scripts/version.sh minor",
+    "version:major": "./scripts/version.sh major",
+    "build:release": "./scripts/build-release.sh"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
