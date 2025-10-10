@@ -1,0 +1,304 @@
+<template>
+  <div class="container">
+    <div class="settings-header">
+      <h1>Settings</h1>
+      <p class="subtitle">Customize your Daily Quotes experience</p>
+    </div>
+    
+    <div class="settings-card">
+      <div class="setting-section">
+        <h3>📱 Display</h3>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <h4>Font Size</h4>
+            <p class="setting-description">Adjust the text size for better readability</p>
+          </div>
+          
+          <div class="setting-controls">
+            <button 
+              @click="decreaseFontSize" 
+              class="control-btn decrease-btn"
+              :disabled="fontSize <= 0.8"
+              title="Decrease font size"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </button>
+            
+            <span class="font-size-display">{{ Math.round(fontSize * 100) }}%</span>
+            
+            <button 
+              @click="increaseFontSize" 
+              class="control-btn increase-btn"
+              :disabled="fontSize >= 1.5"
+              title="Increase font size"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="font-preview">
+          <p class="preview-text">"{{ previewQuote.text }}"</p>
+          <p class="preview-author">— {{ previewQuote.author }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="settings-footer">
+      <p class="version-info">Daily Quotes v{{ version }}</p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+
+const fontSize = ref(1.0)
+const version = ref('1.0.4')
+
+const previewQuote = ref({
+  text: "The only way to do great work is to love what you do.",
+  author: "Steve Jobs"
+})
+
+function increaseFontSize() {
+  if (fontSize.value < 1.5) {
+    fontSize.value = Math.min(fontSize.value + 0.1, 1.5)
+    saveFontSize()
+    applyFontSize()
+  }
+}
+
+function decreaseFontSize() {
+  if (fontSize.value > 0.8) {
+    fontSize.value = Math.max(fontSize.value - 0.1, 0.8)
+    saveFontSize()
+    applyFontSize()
+  }
+}
+
+function saveFontSize() {
+  localStorage.setItem('fontSize', fontSize.value.toString())
+}
+
+function loadFontSize() {
+  const saved = localStorage.getItem('fontSize')
+  if (saved) {
+    fontSize.value = parseFloat(saved)
+  }
+}
+
+function applyFontSize() {
+  document.documentElement.style.setProperty('--font-scale', fontSize.value)
+}
+
+onMounted(async () => {
+  // Load saved font size
+  loadFontSize()
+  applyFontSize()
+  
+  // Load version dynamically
+  try {
+    const packageInfo = await import('../../package.json')
+    version.value = packageInfo.default.version
+  } catch (error) {
+    console.warn('Could not load version from package.json:', error)
+  }
+})
+</script>
+
+<style scoped>
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.settings-header h1 {
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 1rem;
+}
+
+.settings-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.setting-section h3 {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--nav-border);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-info {
+  flex: 1;
+}
+
+.setting-info h4 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.setting-description {
+  color: var(--text-color);
+  opacity: 0.7;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.setting-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.control-btn {
+  padding: 0.75rem;
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover:not(:disabled) {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.decrease-btn:hover:not(:disabled) {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: white;
+}
+
+.increase-btn:hover:not(:disabled) {
+  background: #10b981;
+  border-color: #059669;
+  color: white;
+}
+
+.font-size-display {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.font-preview {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--nav-border);
+  text-align: center;
+}
+
+.preview-text {
+  font-size: calc(1.4rem * var(--font-scale, 1));
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-color);
+}
+
+.preview-author {
+  font-size: calc(1rem * var(--font-scale, 1));
+  color: var(--text-color);
+  opacity: 0.8;
+  font-weight: 500;
+  margin: 0;
+}
+
+.settings-footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--nav-border);
+}
+
+.version-info {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .settings-card {
+    padding: 1.5rem;
+  }
+  
+  .settings-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .setting-controls {
+    justify-content: center;
+  }
+  
+  .control-btn {
+    width: 52px;
+    height: 52px;
+  }
+}
+</style>

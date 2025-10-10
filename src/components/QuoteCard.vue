@@ -255,7 +255,7 @@ function handleShareAction(action, text) {
 }
 
 .quote-text {
-  font-size: 1.4rem;
+  font-size: calc(1.4rem * var(--font-scale, 1));
   line-height: 1.6;
   margin: 0 0 1rem;
   font-weight: 400;
@@ -263,7 +263,7 @@ function handleShareAction(action, text) {
 }
 
 .quote-author {
-  font-size: 1rem;
+  font-size: calc(1rem * var(--font-scale, 1));
   color: var(--text-color);
   opacity: 0.8;
   font-weight: 500;
