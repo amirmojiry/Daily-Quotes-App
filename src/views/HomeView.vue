@@ -11,6 +11,9 @@
     <!-- Success message -->
     <div v-if="showMessage" class="message success-message">
       {{ message }}
+      <div v-if="message.includes('favorites')" class="message-link">
+        <router-link to="/favorites">View your favorites →</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -146,6 +149,21 @@ onMounted(() => {
   background: #10b981;
   color: white;
   border: 1px solid #059669;
+}
+
+.message-link {
+  margin-top: 0.5rem;
+}
+
+.message-link a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.message-link a:hover {
+  opacity: 0.8;
 }
 
 @keyframes slideIn {
