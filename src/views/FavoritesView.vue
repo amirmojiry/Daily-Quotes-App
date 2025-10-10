@@ -14,6 +14,29 @@
     </div>
     
     <div v-else>
+      <!-- Top pagination controls -->
+      <div v-if="totalPages > 1" class="pagination top-pagination">
+        <button 
+          @click="currentPage--" 
+          :disabled="currentPage === 1"
+          class="page-btn"
+        >
+          ← Previous
+        </button>
+        
+        <span class="page-info">
+          Page {{ currentPage }} of {{ totalPages }}
+        </span>
+        
+        <button 
+          @click="currentPage++" 
+          :disabled="currentPage === totalPages"
+          class="page-btn"
+        >
+          Next →
+        </button>
+      </div>
+      
       <!-- Paginated favorites list -->
       <div class="favorites-list">
         <div 
@@ -32,7 +55,7 @@
       </div>
       
       <!-- Pagination controls -->
-      <div v-if="totalPages > 1" class="pagination">
+      <div v-if="totalPages > 1" class="pagination bottom-pagination">
         <button 
           @click="currentPage--" 
           :disabled="currentPage === 1"
@@ -219,10 +242,17 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 2rem;
   padding: 1rem;
   background: var(--card-bg);
   border-radius: 12px;
+}
+
+.top-pagination {
+  margin-bottom: 2rem;
+}
+
+.bottom-pagination {
+  margin-top: 2rem;
 }
 
 .page-btn {
