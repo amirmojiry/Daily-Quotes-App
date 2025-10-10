@@ -46,6 +46,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
   border-bottom: 1px solid var(--nav-border);
   background-color: var(--nav-bg);
 }
@@ -88,6 +89,6 @@ nav a.router-link-active {
 
 main {
   padding: 0 1rem 2rem;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px - env(safe-area-inset-top));
 }
 </style>

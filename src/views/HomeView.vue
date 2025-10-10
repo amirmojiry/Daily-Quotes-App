@@ -2,9 +2,18 @@
   <div class="container">
     <QuoteCard :quote="currentQuote" />
     <div class="buttons">
-      <button @click="nextQuote" class="next-btn">Next Quote</button>
-      <button @click="addFavorite" class="favorite-btn" :disabled="isAlreadyFavorite">
-        {{ isAlreadyFavorite ? '✅ Already Saved' : '❤️ Add to Favorites' }}
+      <button @click="nextQuote" class="next-btn" title="Next Quote">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
+      </button>
+      <button @click="addFavorite" class="favorite-btn" :disabled="isAlreadyFavorite" :title="isAlreadyFavorite ? 'Already Saved' : 'Add to Favorites'">
+        <svg v-if="isAlreadyFavorite" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20,6 9,17 4,12"></polyline>
+        </svg>
+        <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
       </button>
     </div>
     
@@ -113,20 +122,31 @@ onMounted(() => {
 }
 
 .next-btn, .favorite-btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.75rem;
+  border-radius: 50%;
   border: 1px solid var(--button-border);
   cursor: pointer;
   background: var(--button-bg);
   color: var(--button-text);
-  font-size: 1rem;
-  font-weight: 500;
   transition: all 0.2s ease;
-  min-width: 140px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.next-btn:hover, .favorite-btn:hover {
-  opacity: 0.8;
+.next-btn:hover {
+  background: #8b5cf6;
+  border-color: #7c3aed;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.favorite-btn:hover {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: white;
   transform: translateY(-1px);
 }
 
@@ -179,13 +199,13 @@ onMounted(() => {
 
 @media (max-width: 768px) {
   .buttons {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
   }
   
   .next-btn, .favorite-btn {
-    width: 100%;
-    max-width: 200px;
+    width: 52px;
+    height: 52px;
   }
 }
 </style>
