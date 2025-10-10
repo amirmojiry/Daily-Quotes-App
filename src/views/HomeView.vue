@@ -96,7 +96,13 @@ function addFavorite() {
     return
   }
   
-  favorites.push(currentQuote.value)
+  // Add timestamp when adding to favorites
+  const quoteWithTimestamp = {
+    ...currentQuote.value,
+    addedAt: Date.now()
+  }
+  
+  favorites.push(quoteWithTimestamp)
   localStorage.setItem('favorites', JSON.stringify(favorites))
   showSuccessMessage('Quote added to favorites! ❤️')
 }

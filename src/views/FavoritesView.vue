@@ -359,13 +359,42 @@ const totalPages = computed(() => {
 })
 
 const paginatedFavorites = computed(() => {
+  // Sort favorites by newest first (addedAt timestamp, or fallback to array index for older items)
+  const sortedFavorites = [...favorites.value].sort((a, b) => {
+    const timestampA = a.addedAt || 0
+    const timestampB = b.addedAt || 0
+    return timestampB - timestampA // Newest first
+  })
+  
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return favorites.value.slice(start, end)
+  return sortedFavorites.slice(start, end)
 })
+
+function migrateFavorites() {
+  // Add timestamps to existing favorites that don't have them
+  let needsUpdate = false
+  const migratedFavorites = favorites.value.map((fav, index) => {
+    if (!fav.addedAt) {
+      needsUpdate = true
+      // Use reverse index as timestamp for existing items (newer items get higher timestamps)
+      return {
+        ...fav,
+        addedAt: Date.now() - (favorites.value.length - index) * 1000
+      }
+    }
+    return fav
+  })
+  
+  if (needsUpdate) {
+    favorites.value = migratedFavorites
+    localStorage.setItem('favorites', JSON.stringify(favorites.value))
+  }
+}
 
 onMounted(() => {
   favorites.value = loadFavorites()
+  migrateFavorites()
 })
 </script>
 
