@@ -19,9 +19,12 @@
         <button 
           @click="currentPage--" 
           :disabled="currentPage === 1"
-          class="page-btn"
+          class="page-btn prev-btn"
+          title="Previous page"
         >
-          ← Previous
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
         </button>
         
         <span class="page-info">
@@ -31,9 +34,12 @@
         <button 
           @click="currentPage++" 
           :disabled="currentPage === totalPages"
-          class="page-btn"
+          class="page-btn next-btn"
+          title="Next page"
         >
-          Next →
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
         </button>
       </div>
       
@@ -81,9 +87,12 @@
         <button 
           @click="currentPage--" 
           :disabled="currentPage === 1"
-          class="page-btn"
+          class="page-btn prev-btn"
+          title="Previous page"
         >
-          ← Previous
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
         </button>
         
         <span class="page-info">
@@ -93,9 +102,12 @@
         <button 
           @click="currentPage++" 
           :disabled="currentPage === totalPages"
-          class="page-btn"
+          class="page-btn next-btn"
+          title="Next page"
         >
-          Next →
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
         </button>
       </div>
     </div>
@@ -520,13 +532,18 @@ onMounted(() => {
 }
 
 .page-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem;
   border: 1px solid var(--button-border);
   background: var(--button-bg);
   color: var(--button-text);
-  border-radius: 8px;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-btn:hover:not(:disabled) {
@@ -538,6 +555,18 @@ onMounted(() => {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+.prev-btn:hover:not(:disabled) {
+  background: #8b5cf6;
+  border-color: #7c3aed;
+  color: white;
+}
+
+.next-btn:hover:not(:disabled) {
+  background: #8b5cf6;
+  border-color: #7c3aed;
+  color: white;
 }
 
 .page-info {
@@ -575,12 +604,18 @@ onMounted(() => {
   }
   
   .pagination {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .page-btn {
+    width: 52px;
+    height: 52px;
   }
   
   .page-info {
-    order: -1;
+    order: 0;
   }
 }
 </style>
