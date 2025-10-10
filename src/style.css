@@ -90,4 +90,18 @@ button:focus-visible {
   background-color: var(--bg-color);
 }
 
+/* Mobile-specific fixes for safe area */
+@supports (padding: max(0px)) {
+  .header {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+}
+
+/* Fallback for devices without safe area support */
+@media screen and (max-width: 768px) {
+  .header {
+    padding-top: 1.5rem;
+  }
+}
+
 /* Remove the automatic light mode media query as we'll handle it manually */
