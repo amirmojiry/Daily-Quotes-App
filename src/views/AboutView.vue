@@ -30,7 +30,7 @@
       </div>
       
       <div class="version-info">
-        <p>Version 1.0.1</p>
+        <p>Version {{ version }}</p>
         <p>Built with ❤️ by Amir Mojiri</p>
       </div>
     </div>
@@ -38,7 +38,20 @@
 </template>
 
 <script setup>
-// No reactive data needed for this static page
+import { ref, onMounted } from 'vue'
+
+const version = ref('1.0.1') // fallback version
+
+onMounted(async () => {
+  try {
+    // Import package.json to get the current version
+    const packageInfo = await import('../../package.json')
+    version.value = packageInfo.default.version
+  } catch (error) {
+    console.warn('Could not load version from package.json:', error)
+    // Keep the fallback version
+  }
+})
 </script>
 
 <style scoped>
