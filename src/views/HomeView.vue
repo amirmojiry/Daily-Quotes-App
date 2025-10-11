@@ -31,6 +31,7 @@
 import { ref, onMounted, computed } from 'vue'
 import quotes from '../data/quotes.json'
 import QuoteCard from '../components/QuoteCard.vue'
+import widgetService from '../services/widgetService.js'
 
 const currentQuote = ref({ text: '', author: '' })
 const showMessage = ref(false)
@@ -47,6 +48,8 @@ function pickRandom() {
 
 function nextQuote() {
   currentQuote.value = pickRandom()
+  // Update widget with new quote
+  widgetService.updateWidget(currentQuote.value)
 }
 
 function loadFavorites() {
@@ -118,6 +121,8 @@ function loadFontSize() {
 onMounted(() => {
   currentQuote.value = pickRandom()
   loadFontSize()
+  // Initialize widget with first quote
+  widgetService.updateWidget(currentQuote.value)
 })
 </script>
 

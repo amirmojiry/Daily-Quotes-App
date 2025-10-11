@@ -17,6 +17,7 @@
     "@capacitor/cli": "^7.4.3",
     "@capacitor/core": "^7.4.3",
     "@capacitor/share": "^7.0.2",
+    "capacitor-widgetsbridge-plugin": "^0.2.1",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1"
   },

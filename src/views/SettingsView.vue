@@ -82,6 +82,45 @@
       </div>
     </div>
     
+    <div class="settings-card">
+      <div class="setting-section">
+        <h3>📱 Widget</h3>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <h4>Home Screen Widget</h4>
+            <p class="setting-description">Add inspirational quotes to your home screen</p>
+          </div>
+          
+          <div class="setting-controls">
+            <button 
+              @click="updateWidget" 
+              class="control-btn widget-btn"
+              title="Update widget with current quote"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9,22 9,12 15,12 15,22"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="widget-info">
+          <p class="widget-instructions">
+            <strong>How to add widget:</strong><br>
+            1. Long press on your home screen<br>
+            2. Select "Widgets" or "Add Widget"<br>
+            3. Find "Daily Quotes" in the list<br>
+            4. Drag it to your desired location
+          </p>
+          <div v-if="widgetStatus" class="widget-status">
+            <p class="status-text">{{ widgetStatus }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="settings-footer">
       <p class="version-info">Daily Quotes v{{ version }}</p>
     </div>
@@ -90,10 +129,12 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import widgetService from '../services/widgetService.js'
 
 const fontSize = ref(1.0)
 const version = ref('1.0.4')
 const isDarkMode = ref(true)
+const widgetStatus = ref('')
 
 const previewQuote = ref({
   text: "The only way to do great work is to love what you do.",
@@ -135,12 +176,29 @@ function toggleTheme() {
   isDarkMode.value = !isDarkMode.value
   document.documentElement.setAttribute('data-theme', isDarkMode.value ? 'dark' : 'light')
   localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
+  // Update widget theme
+  widgetService.updateWidgetTheme()
 }
 
 function loadTheme() {
   const savedTheme = localStorage.getItem('theme') || 'dark'
   isDarkMode.value = savedTheme === 'dark'
   document.documentElement.setAttribute('data-theme', savedTheme)
+}
+
+async function updateWidget() {
+  try {
+    await widgetService.updateWidget()
+    widgetStatus.value = 'Widget updated successfully!'
+    setTimeout(() => {
+      widgetStatus.value = ''
+    }, 3000)
+  } catch (error) {
+    widgetStatus.value = 'Widget update failed. Make sure the widget is installed.'
+    setTimeout(() => {
+      widgetStatus.value = ''
+    }, 3000)
+  }
 }
 
 onMounted(async () => {
@@ -318,6 +376,42 @@ onMounted(async () => {
   opacity: 0.6;
   font-size: 0.9rem;
   margin: 0;
+}
+
+.widget-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--nav-border);
+}
+
+.widget-instructions {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.widget-status {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #10b981;
+  border: 1px solid #059669;
+}
+
+.status-text {
+  color: white;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.widget-btn:hover:not(:disabled) {
+  background: #3b82f6;
+  border-color: #2563eb;
+  color: white;
 }
 
 @media (max-width: 768px) {
