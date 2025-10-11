@@ -121,20 +121,30 @@ async function shareQuote() {
   const shareData = {
     title: 'Daily Quote',
     text: `"${props.quote.text}" — ${props.quote.author}`,
-    url: window.location.href
+    url: window.location.href,
+    dialogTitle: 'Share this quote'
   }
   
-  if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-    try {
-      await navigator.share(shareData)
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        console.error('Error sharing:', err)
-        fallbackShare(shareData.text)
+  try {
+    // Try native Capacitor Share API first
+    const { Share } = await import('@capacitor/share')
+    await Share.share(shareData)
+  } catch (capacitorError) {
+    console.log('Capacitor Share not available, trying Web Share API')
+    
+    // Fallback to Web Share API
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData)
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err)
+          fallbackShare(shareData.text)
+        }
       }
+    } else {
+      fallbackShare(shareData.text)
     }
-  } else {
-    fallbackShare(shareData.text)
   }
 }
 
