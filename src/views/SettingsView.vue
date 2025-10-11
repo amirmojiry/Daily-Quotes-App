@@ -11,6 +11,36 @@
         
         <div class="setting-item">
           <div class="setting-info">
+            <h4>Theme</h4>
+            <p class="setting-description">Switch between dark and light mode</p>
+          </div>
+          
+          <div class="setting-controls">
+            <button 
+              @click="toggleTheme" 
+              class="control-btn theme-toggle-btn"
+              :title="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+            >
+              <svg v-if="isDarkMode" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
             <h4>Font Size</h4>
             <p class="setting-description">Adjust the text size for better readability</p>
           </div>
@@ -63,6 +93,7 @@ import { ref, onMounted, computed } from 'vue'
 
 const fontSize = ref(1.0)
 const version = ref('1.0.4')
+const isDarkMode = ref(true)
 
 const previewQuote = ref({
   text: "The only way to do great work is to love what you do.",
@@ -100,7 +131,22 @@ function applyFontSize() {
   document.documentElement.style.setProperty('--font-scale', fontSize.value)
 }
 
+function toggleTheme() {
+  isDarkMode.value = !isDarkMode.value
+  document.documentElement.setAttribute('data-theme', isDarkMode.value ? 'dark' : 'light')
+  localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
+}
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'dark'
+  isDarkMode.value = savedTheme === 'dark'
+  document.documentElement.setAttribute('data-theme', savedTheme)
+}
+
 onMounted(async () => {
+  // Load saved theme
+  loadTheme()
+  
   // Load saved font size
   loadFontSize()
   applyFontSize()
@@ -225,6 +271,7 @@ onMounted(async () => {
   border-color: #059669;
   color: white;
 }
+
 
 .font-size-display {
   color: var(--text-color);

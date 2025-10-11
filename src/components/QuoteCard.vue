@@ -315,11 +315,11 @@ function handleShareAction(action, text) {
   }
   
   .quote-text {
-    font-size: 1.2rem;
+    font-size: calc(1.2rem * var(--font-scale, 1));
   }
   
   .quote-author {
-    font-size: 0.9rem;
+    font-size: calc(0.9rem * var(--font-scale, 1));
   }
   
   .quote-actions {

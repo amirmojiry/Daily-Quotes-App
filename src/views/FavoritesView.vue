@@ -392,9 +392,18 @@ function migrateFavorites() {
   }
 }
 
+function loadFontSize() {
+  const saved = localStorage.getItem('fontSize')
+  if (saved) {
+    const fontSize = parseFloat(saved)
+    document.documentElement.style.setProperty('--font-scale', fontSize)
+  }
+}
+
 onMounted(() => {
   favorites.value = loadFavorites()
   migrateFavorites()
+  loadFontSize()
 })
 </script>
 

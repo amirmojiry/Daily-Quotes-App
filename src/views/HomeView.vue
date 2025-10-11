@@ -107,8 +107,17 @@ function addFavorite() {
   showSuccessMessage('Quote added to favorites! ❤️')
 }
 
+function loadFontSize() {
+  const saved = localStorage.getItem('fontSize')
+  if (saved) {
+    const fontSize = parseFloat(saved)
+    document.documentElement.style.setProperty('--font-scale', fontSize)
+  }
+}
+
 onMounted(() => {
   currentQuote.value = pickRandom()
+  loadFontSize()
 })
 </script>
 
