@@ -1,173 +1,245 @@
-# Daily Quotes App
+# Daily Quotes App 📱
 
-## 🧠 Overview
-Daily Quotes is a simple, offline-only mobile app built with **Vue 3 + Vite + Capacitor**.  
-It displays a random inspirational quote every time the user opens the app or clicks the “Next Quote” button.  
-Users can also **save their favorite quotes locally** (stored in `localStorage`) for later viewing.
+A beautiful, minimalist mobile app that delivers daily inspiration through carefully curated quotes. Built with modern web technologies and packaged as a native mobile app.
 
-This app **does not require any backend or server** — all quotes are stored within the app itself as static JSON data.  
-It’s a perfect starter project to demonstrate hybrid app development using Vue and Capacitor.
+## 🌟 What is Daily Quotes?
+
+Daily Quotes is your personal source of daily inspiration. Open the app anytime to discover a new motivational quote, save your favorites, and share wisdom with others. Perfect for starting your day with positivity or finding motivation during challenging moments.
+
+## ✨ Key Features
+
+### 📖 Daily Inspiration
+- **Random Quotes**: Discover new inspirational quotes every time you open the app
+- **Next Quote**: Instantly browse through our curated collection with a single tap
+- **Beautiful Design**: Clean, modern interface that focuses on the words that matter
+
+### ❤️ Personal Collection
+- **Save Favorites**: Build your personal library of meaningful quotes
+- **Smart Organization**: Favorites are sorted by newest first, so your latest discoveries appear at the top
+- **Easy Navigation**: Browse through your saved quotes with intuitive pagination
+
+### 📤 Share & Connect
+- **Copy Quotes**: Copy any quote with author attribution to your clipboard
+- **Social Sharing**: Share quotes directly to WhatsApp, Twitter, Facebook, or email
+- **Native Share**: Uses your device's native sharing capabilities for seamless integration
+
+### 🎨 Customization
+- **Font Scaling**: Adjust text size for better readability (80% to 150%)
+- **Dark/Light Mode**: Switch between themes to match your preference
+- **Responsive Design**: Optimized for all screen sizes and orientations
+
+### 🔒 Privacy & Performance
+- **100% Offline**: No internet required - all quotes are stored locally
+- **No Tracking**: Your data stays on your device
+- **Fast Loading**: Instant quote generation with no network delays
 
 ---
 
-## ✨ Features
-- 📜 Random inspirational quote shown at startup
-- 🔁 “Next Quote” button to load a new random quote
-- ❤️ “Add to Favorites” button to save a quote locally
-- ⭐ “Favorites” screen to see all saved quotes
-- 🌙 Simple and clean UI (light & dark mode optional)
-- 🚫 100% offline — no API or server calls required
+## 📱 Download & Installation
+
+### Google Play Store
+Download Daily Quotes from the Google Play Store for Android devices.
+
+### System Requirements
+- **Android**: 5.0 (API level 21) or higher
+- **Storage**: 5MB available space
+- **Internet**: Not required (fully offline app)
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** Vue 3 (Composition API)
-- **Build Tool:** Vite
-- **Mobile Wrapper:** Capacitor (for Android/iOS builds)
-- **Storage:** LocalStorage (browser API)
-- **Styling:** Tailwind CSS (optional)
+## 🛠️ Technical Details
 
----
+### Architecture
+Daily Quotes is built using modern web technologies and packaged as a native mobile app:
 
-## 📁 Project Structure
+- **Frontend Framework**: Vue 3 with Composition API
+- **Build Tool**: Vite for fast development and optimized builds
+- **Mobile Platform**: Capacitor for native Android/iOS packaging
+- **Storage**: LocalStorage for offline data persistence
+- **Styling**: Custom CSS with CSS variables for theming
+- **Icons**: SVG icons with theme-aware colors
+
+### Project Structure
 ```
-
 daily-quotes/
 ├─ src/
-│  ├─ assets/
 │  ├─ components/
-│  │  ├─ QuoteCard.vue
-│  │  ├─ FavoriteList.vue
-│  ├─ data/
-│  │  └─ quotes.json
+│  │  └─ QuoteCard.vue          # Quote display component
 │  ├─ views/
-│  │  ├─ HomeView.vue
-│  │  ├─ FavoritesView.vue
-│  ├─ App.vue
-│  ├─ main.js
-├─ capacitor.config.json
-├─ package.json
-└─ README.md
+│  │  ├─ HomeView.vue           # Main quote screen
+│  │  ├─ FavoritesView.vue      # Saved quotes with pagination
+│  │  ├─ SettingsView.vue       # App settings and customization
+│  │  └─ AboutView.vue          # App information
+│  ├─ data/
+│  │  └─ quotes.json            # Curated quote collection
+│  ├─ router/
+│  │  └─ index.js               # Navigation routing
+│  ├─ App.vue                   # Main app component
+│  └─ main.js                   # App entry point
+├─ android/                     # Android native project
+├─ scripts/                     # Build and versioning scripts
+├─ guidelines/                  # Development guidelines
+└─ package.json                 # Dependencies and scripts
+```
 
-````
+### Key Technical Features
+- **Offline-First**: All data stored locally, no network dependencies
+- **Responsive Design**: Adapts to all screen sizes and orientations
+- **Theme System**: Dynamic light/dark mode switching
+- **Font Scaling**: User-adjustable text size for accessibility
+- **Native Integration**: Uses device sharing capabilities
+- **Version Management**: Automated versioning and release process
 
 ---
 
-## ⚙️ Setup & Run (Web)
+## 👨‍💻 Developer Information
+
+### For Developers
+This project serves as an excellent example of modern hybrid mobile app development using Vue.js and Capacitor.
+
+### Development Setup
 ```bash
-# Create project (if not already)
-npm create vite@latest daily-quotes -- --template vue
-cd daily-quotes
+# Clone the repository
+git clone https://github.com/amirmojiry/Daily-Quotes-App.git
+cd Daily-Quotes-App
 
 # Install dependencies
 npm install
 
-# Run for web preview
+# Run development server
 npm run dev
-````
 
----
-
-## 📱 Build for Mobile
-
-### 1. Add Capacitor
-
-```bash
-npm install @capacitor/core @capacitor/cli
-npx cap init
-```
-
-### 2. Add Platforms
-
-```bash
-npx cap add android
-# or
-npx cap add ios
-```
-
-### 3. Build and Sync
-
-```bash
+# Build for production
 npm run build
-npx cap copy
-npx cap open android
-# or
-npx cap open ios
+
+# Build mobile app
+npm run build:release
 ```
+
+### Version Management
+The app uses automated versioning with semantic versioning:
+- **Patch**: Bug fixes (`npm run version:patch`)
+- **Minor**: New features (`npm run version:minor`) 
+- **Major**: Breaking changes (`npm run version:major`)
+
+### Build Process
+```bash
+# Automated release build
+npm run build:release
+```
+This command:
+1. Builds web assets with Vite
+2. Copies assets to Android project
+3. Builds Android release bundle (AAB)
+4. Generates mapping files for crash reporting
 
 ---
 
-## 🧩 Core Logic
+## 📊 App Statistics
 
-**quotes.json**
-
-```json
-[
-  {"text": "The best way to get started is to quit talking and begin doing.", "author": "Walt Disney"},
-  {"text": "Your time is limited, don't waste it living someone else's life.", "author": "Steve Jobs"},
-  {"text": "The harder you work for something, the greater you'll feel when you achieve it.", "author": "Anonymous"}
-]
-```
-
-**HomeView.vue (core idea)**
-
-```vue
-<template>
-  <div class="container">
-    <QuoteCard :quote="currentQuote" />
-    <div class="buttons">
-      <button @click="nextQuote">Next Quote</button>
-      <button @click="addFavorite">❤️ Add to Favorites</button>
-    </div>
-  </div>
-</template>
-
-<script setup>
-import quotes from '../data/quotes.json'
-import { ref } from 'vue'
-
-const currentQuote = ref(quotes[Math.floor(Math.random() * quotes.length)])
-const favorites = ref(JSON.parse(localStorage.getItem('favorites') || '[]'))
-
-function nextQuote() {
-  currentQuote.value = quotes[Math.floor(Math.random() * quotes.length)]
-}
-
-function addFavorite() {
-  favorites.value.push(currentQuote.value)
-  localStorage.setItem('favorites', JSON.stringify(favorites.value))
-}
-</script>
-```
+- **Current Version**: 1.0.4
+- **Total Quotes**: 100+ curated inspirational quotes
+- **Supported Platforms**: Android (iOS coming soon)
+- **App Size**: ~2MB
+- **Offline Storage**: Unlimited favorites (device storage dependent)
 
 ---
 
-## 🚀 Deployment
+## 🤝 Contributing
 
-### For Android:
+We welcome contributions! Please see our development guidelines in the `guidelines/` directory.
 
-1. Open the Android project via Android Studio.
-2. Build → Generate Signed Bundle / APK.
-3. Upload to [Google Play Console](https://play.google.com/console).
-
-### For iOS:
-
-1. Open the iOS project via Xcode.
-2. Configure signing and team.
-3. Build → Archive → Distribute via App Store Connect.
+### Areas for Contribution
+- **New Quotes**: Submit inspirational quotes for our collection
+- **UI/UX**: Design improvements and accessibility enhancements
+- **Features**: New functionality ideas and implementations
+- **Bug Reports**: Help us identify and fix issues
 
 ---
 
-## 🧾 License
+## 📄 License
 
 MIT License – free to use, modify, and publish.
 
 ---
 
-## 💡 Ideas for Extension
+## 🙏 Acknowledgments
 
-* Add daily notification to show a random quote.
-* Allow users to add their own quotes.
-* Add categories (motivation, love, humor, etc.).
-* Share quotes to social media.
-* Sync favorites with cloud storage (future feature).
+- **Quotes**: Curated collection of inspirational quotes from various authors
+- **Icons**: Custom SVG icons designed for the app
+- **Community**: Built with love for the developer community
+
+---
+
+## 📞 Support & Contact
+
+- **Developer**: Amir Mojiri
+- **GitHub**: [amirmojiry/Daily-Quotes-App](https://github.com/amirmojiry/Daily-Quotes-App)
+- **Issues**: Report bugs or request features via GitHub Issues
+
+---
+
+## 🚀 Future Features
+
+Here's our roadmap for upcoming features that will enhance the Daily Quotes experience while maintaining the app's offline-first philosophy:
+
+### 📅 Content & Organization
+- [ ] **Quote Categories**: Organize quotes by themes (motivation, love, success, wisdom, etc.)
+- [ ] **Daily Quote Notification**: Optional daily reminder to open the app
+- [ ] **Quote of the Day**: Special daily featured quote with enhanced styling
+- [ ] **Quote Search**: Search through all quotes by text or author
+- [ ] **Author Profiles**: Learn more about quote authors with brief biographies
+- [ ] **Quote Collections**: Create custom collections of related quotes
+- [ ] **Quote Tags**: Add custom tags to quotes for better organization
+
+### 🎨 Personalization & Customization
+- [ ] **Custom Themes**: Additional color schemes and visual themes
+- [ ] **Quote Backgrounds**: Choose from different background patterns or colors
+- [ ] **Font Selection**: Multiple font options for quote display
+- [ ] **Animation Preferences**: Toggle smooth transitions and animations
+- [ ] **Layout Options**: Different quote card layouts and arrangements
+- [ ] **Custom Quote Input**: Add your own personal quotes to the collection
+- [ ] **Quote Editing**: Edit saved quotes or add personal notes
+
+### 📊 Analytics & Insights
+- [ ] **Reading Statistics**: Track how many quotes you've viewed
+- [ ] **Favorite Analytics**: See which authors you save most often
+- [ ] **Reading Streak**: Track consecutive days of app usage
+- [ ] **Quote History**: View recently read quotes with timestamps
+- [ ] **Personal Insights**: Discover your quote preferences and patterns
+
+### 🔧 Functionality & UX
+- [ ] **Quote Shuffle**: Randomize the order of all quotes
+- [ ] **Quote Rotation**: Automatic quote rotation every few seconds
+- [ ] **Keyboard Shortcuts**: Quick navigation with keyboard shortcuts
+- [ ] **Quote Export**: Export favorites as text file or PDF
+- [ ] **Backup & Restore**: Export/import favorites for device migration
+- [ ] **Quote Duplication Check**: Prevent saving duplicate quotes
+- [ ] **Bulk Actions**: Select multiple quotes for batch operations
+
+### 🎯 Advanced Features
+- [ ] **Quote Challenges**: Daily or weekly quote-based challenges
+- [ ] **Quote Memory Game**: Test your memory of favorite quotes
+- [ ] **Quote Generator**: AI-powered quote variations (offline)
+- [ ] **Quote Comparison**: Side-by-side comparison of similar quotes
+- [ ] **Quote Timeline**: Visual timeline of when quotes were saved
+- [ ] **Quote Relationships**: Connect related quotes together
+- [ ] **Offline Quote Generator**: Create new quotes based on existing patterns
+
+### 📱 Platform & Integration
+- [ ] **iOS Version**: Native iOS app development
+- [ ] **Desktop App**: Electron-based desktop version
+- [ ] **Browser Extension**: Chrome/Firefox extension for daily quotes
+- [ ] **Widget Support**: Home screen widgets for quick quote access
+- [ ] **Voice Reading**: Text-to-speech for quote reading
+- [ ] **Accessibility**: Enhanced screen reader support and accessibility features
+
+### 🔒 Privacy & Security
+- [ ] **App Lock**: PIN or biometric protection for the app
+- [ ] **Private Collections**: Password-protected quote collections
+- [ ] **Data Encryption**: Encrypt stored favorites for enhanced security
+- [ ] **Privacy Dashboard**: View and manage all stored data
+
+---
+
+*Daily Quotes - Your daily dose of inspiration* ✨
