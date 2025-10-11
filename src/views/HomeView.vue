@@ -123,6 +123,8 @@ onMounted(() => {
   loadFontSize()
   // Initialize widget with first quote
   widgetService.updateWidget(currentQuote.value)
+  // Schedule random widget updates
+  widgetService.scheduleRandomUpdates()
 })
 </script>
 

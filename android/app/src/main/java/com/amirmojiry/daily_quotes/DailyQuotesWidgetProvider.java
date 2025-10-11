@@ -76,6 +76,34 @@ public class DailyQuotesWidgetProvider extends AppWidgetProvider {
         String quote = prefs.getString(PREF_QUOTE_KEY, "The only way to do great work is to love what you do.");
         String author = prefs.getString(PREF_AUTHOR_KEY, "Steve Jobs");
         String theme = prefs.getString(PREF_THEME_KEY, "dark");
+        
+        // Check if we should show a random quote (when no specific quote is set)
+        String[] defaultQuotes = {
+            "The only way to do great work is to love what you do.",
+            "Innovation distinguishes between a leader and a follower.",
+            "Life is what happens to you while you're busy making other plans.",
+            "The future belongs to those who believe in the beauty of their dreams.",
+            "It is during our darkest moments that we must focus to see the light.",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "The way to get started is to quit talking and begin doing.",
+            "Don't be pushed around by the fears in your mind. Be led by the dreams in your heart.",
+            "Believe you can and you're halfway there.",
+            "The only impossible journey is the one you never begin."
+        };
+        
+        String[] defaultAuthors = {
+            "Steve Jobs", "Steve Jobs", "John Lennon", "Eleanor Roosevelt", 
+            "Aristotle", "Winston Churchill", "Walt Disney", "Roy T. Bennett",
+            "Theodore Roosevelt", "Tony Robbins"
+        };
+        
+        // If no specific quote is set, pick a random one
+        if (quote.equals("The only way to do great work is to love what you do.") && 
+            author.equals("Steve Jobs")) {
+            int randomIndex = (int) (Math.random() * defaultQuotes.length);
+            quote = defaultQuotes[randomIndex];
+            author = defaultAuthors[randomIndex];
+        }
 
         // Create RemoteViews
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.daily_quotes_widget);

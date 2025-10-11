@@ -237,20 +237,35 @@ async function shareQuote(quote) {
   const shareData = {
     title: 'Daily Quote',
     text: `"${quote.text}" — ${quote.author}`,
-    url: window.location.href
+    dialogTitle: 'Share this quote'
   }
   
-  if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-    try {
-      await navigator.share(shareData)
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        console.error('Error sharing:', err)
-        fallbackShare(shareData.text)
+  try {
+    // Try native Capacitor Share API first
+    const { Share } = await import('@capacitor/share')
+    await Share.share(shareData)
+    // Don't show fallback modal after successful native share
+    return
+  } catch (capacitorError) {
+    console.log('Capacitor Share not available, trying Web Share API')
+    
+    // Fallback to Web Share API
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData)
+        // Don't show fallback modal after successful web share
+        return
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err)
+          fallbackShare(shareData.text)
+        }
+        // Don't show fallback modal if user cancelled
+        return
       }
+    } else {
+      fallbackShare(shareData.text)
     }
-  } else {
-    fallbackShare(shareData.text)
   }
 }
 
@@ -285,19 +300,22 @@ function fallbackShare(text) {
     <p style="margin: 0 0 1.5rem; color: var(--text-color); opacity: 0.8; font-size: 0.9rem;">Choose how you'd like to share this quote:</p>
     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
       <button class="share-option" data-action="copy" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
-        📋 Copy to Clipboard
+        Copy to Clipboard
       </button>
       <button class="share-option" data-action="whatsapp" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
-        💬 WhatsApp
+        WhatsApp
       </button>
-      <button class="share-option" data-action="twitter" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
-        🐦 Twitter
+      <button class="share-option" data-action="telegram" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
+        Telegram
+      </button>
+      <button class="share-option" data-action="x" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
+        X
       </button>
       <button class="share-option" data-action="facebook" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
-        📘 Facebook
+        Facebook
       </button>
       <button class="share-option" data-action="email" style="padding: 0.75rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; text-align: left;">
-        📧 Email
+        Email
       </button>
     </div>
     <button class="close-share" style="margin-top: 1rem; padding: 0.5rem 1rem; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--button-text); border-radius: 8px; cursor: pointer; width: 100%;">
@@ -331,7 +349,6 @@ function fallbackShare(text) {
 
 function handleShareAction(action, text) {
   const encodedText = encodeURIComponent(text)
-  const encodedUrl = encodeURIComponent(window.location.href)
   
   switch (action) {
     case 'copy':
@@ -342,11 +359,14 @@ function handleShareAction(action, text) {
     case 'whatsapp':
       window.open(`https://wa.me/?text=${encodedText}`, '_blank')
       break
-    case 'twitter':
-      window.open(`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, '_blank')
+    case 'telegram':
+      window.open(`https://t.me/share/url?url=&text=${encodedText}`, '_blank')
+      break
+    case 'x':
+      window.open(`https://x.com/intent/tweet?text=${encodedText}`, '_blank')
       break
     case 'facebook':
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`, '_blank')
+      window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodedText}`, '_blank')
       break
     case 'email':
       window.open(`mailto:?subject=Daily Quote&body=${encodedText}`, '_blank')

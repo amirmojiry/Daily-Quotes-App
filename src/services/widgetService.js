@@ -63,6 +63,23 @@ class WidgetService {
     }
   }
 
+  // Schedule periodic widget updates with random quotes
+  scheduleRandomUpdates() {
+    if (!this.isWidgetAvailable) {
+      return
+    }
+
+    // Update widget every hour with a random quote
+    setInterval(() => {
+      this.updateWidget() // This will pick a random quote
+    }, 60 * 60 * 1000) // 1 hour
+
+    // Also update on app startup with a random quote
+    setTimeout(() => {
+      this.updateWidget() // This will pick a random quote
+    }, 5000) // 5 seconds after app starts
+  }
+
   // Get current theme for widget styling
   getCurrentTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark'
