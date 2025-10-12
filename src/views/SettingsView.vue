@@ -7,7 +7,7 @@
     
     <div class="settings-card">
       <div class="setting-section">
-        <h3>📱 Display</h3>
+        <h3>Display</h3>
         
         <div class="setting-item">
           <div class="setting-info">
@@ -84,7 +84,7 @@
     
     <div class="settings-card">
       <div class="setting-section">
-        <h3>📱 Widget</h3>
+        <h3>Widget</h3>
         
         <div class="setting-item">
           <div class="setting-info">

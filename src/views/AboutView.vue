@@ -19,7 +19,7 @@
       </div>
       
       <div class="app-info">
-        <h3>📱 About This App</h3>
+        <h3>About This App</h3>
         <ul>
           <li>✨ 100% Offline - No internet required</li>
           <li>💾 Save your favorite quotes locally</li>

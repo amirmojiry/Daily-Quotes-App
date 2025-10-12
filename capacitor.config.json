@@ -1,5 +1,11 @@
 {
   "appId": "com.amirmojiry.daily_quotes",
   "appName": "daily-quotes",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#ffffff"
+    }
+  }
 }
